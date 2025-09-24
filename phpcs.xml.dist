@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<ruleset name="WP RightBoat">
+    <description>Custom PHP CodeSniffer ruleset for WP RightBoat plugin</description>
+
+    <!-- Set the memory limit to 256M -->
+    <ini name="memory_limit" value="256M"/>
+
+    <!-- Strip the filepaths down to the relevant bit -->
+    <arg name="basepath" value="./"/>
+
+    <!-- Check up to 20 files simultaneously -->
+    <arg name="parallel" value="20"/>
+
+    <!-- Show sniff codes in all reports -->
+    <arg value="ps"/>
+
+    <!-- Show progress -->
+    <arg name="progress"/>
+
+    <!-- Show colors -->
+    <arg name="colors"/>
+
+    <!-- Only check PHP files -->
+    <arg name="extensions" value="php"/>
+
+    <!-- Check all files in this directory and the directories below it -->
+    <file>.</file>
+
+    <!-- Exclude common directories -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/tests/*</exclude-pattern>
+    <exclude-pattern>*/build/*</exclude-pattern>
+    <exclude-pattern>*/dist/*</exclude-pattern>
+
+    <!-- Include WordPress Coding Standards -->
+    <rule ref="WordPress">
+        <!-- Allow short array syntax -->
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+        <!-- Allow short ternary operator -->
+        <exclude name="WordPress.PHP.DisallowShortTernary"/>
+        <!-- Allow yoda conditions to be optional -->
+        <exclude name="WordPress.PHP.YodaConditions"/>
+    </rule>
+
+    <!-- Include WordPress Extra rules -->
+    <rule ref="WordPress-Extra">
+        <!-- Exclude rules that conflict with modern PHP -->
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+    </rule>
+
+    <!-- Include WordPress Docs rules -->
+    <rule ref="WordPress-Docs"/>
+
+    <!-- Set minimum PHP version -->
+    <config name="minimum_supported_wp_version" value="6.0"/>
+    <config name="testVersion" value="8.0-"/>
+
+    <!-- WordPress function prefixes -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="hwd"/>
+                <element value="wp_rightboat"/>
+                <element value="HWD"/>
+                <element value="WpRightboat"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Allow WordPress and WooCommerce functions without prefixes -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- WordPress database queries -->
+    <rule ref="WordPress.DB.DirectDatabaseQuery">
+        <type>warning</type>
+    </rule>
+
+    <!-- Allow WooCommerce and ACF functions -->
+    <rule ref="WordPress.Security.EscapeOutput">
+        <properties>
+            <property name="customAutoEscapedFunctions" type="array">
+                <!-- WooCommerce functions -->
+                <element value="wc_price"/>
+                <element value="wc_get_price_html"/>
+                <element value="wc_format_decimal"/>
+                <!-- ACF functions -->
+                <element value="get_field"/>
+                <element value="the_field"/>
+                <element value="get_sub_field"/>
+                <element value="the_sub_field"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Text domain verification -->
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="wp-rightboat"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Hook names should be prefixed -->
+    <rule ref="WordPress.NamingConventions.ValidHookName">
+        <properties>
+            <property name="additionalWordDelimiters" value="-"/>
+        </properties>
+    </rule>
+
+    <!-- Custom rules for modern PHP -->
+    <rule ref="PSR12"/>
+    <rule ref="PSR12.Files.FileHeader.IncorrectOrder">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Exclude some PSR12 rules that conflict with WordPress -->
+    <rule ref="PSR12.Files.OpenTag.NotAlone">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Allow WordPress-style brace placement -->
+    <rule ref="PSR12.Classes.OpeningBraceSpace">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Custom severity levels -->
+    <rule ref="WordPress.Security.ValidatedSanitizedInput">
+        <type>error</type>
+    </rule>
+
+    <rule ref="WordPress.Security.NonceVerification">
+        <type>error</type>
+    </rule>
+
+    <!-- Ignore warnings for specific WooCommerce patterns -->
+    <rule ref="WordPress.Security.NonceVerification.Missing">
+        <exclude-pattern>*/woocommerce/*</exclude-pattern>
+    </rule>
+
+    <!-- Allow some flexibility for plugin structure -->
+    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
+        <exclude-pattern>*/includes/*</exclude-pattern>
+        <exclude-pattern>*/src/*</exclude-pattern>
+    </rule>
+
+    <!-- Custom configuration for stubs -->
+    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/dealerdirect/phpcodesniffer-composer-installer"/>
+
+</ruleset>
