@@ -18,7 +18,7 @@ This package includes:
 Install this package as a development dependency in your WordPress project:
 
 ```bash
-composer require --dev fw/wp-stubs
+composer require --dev fwestdev/wp-stubs
 ```
 
 ## Usage
