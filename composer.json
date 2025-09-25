@@ -1,5 +1,5 @@
 {
-    "name": "fw/wp-stubs",
+    "name": "fwestdev/wp-stubs",
     "require-dev": {
         "php-stubs/wordpress-stubs": "^6.4",
         "php-stubs/woocommerce-stubs": "^8.9",
