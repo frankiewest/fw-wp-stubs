@@ -1,5 +1,11 @@
 {
     "name": "fwestdev/wp-stubs",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Fwestdev\\WpStubs\\": "src/"
+        }
+    },
     "require-dev": {
         "php-stubs/wordpress-stubs": "^6.4",
         "php-stubs/woocommerce-stubs": "^8.9",
@@ -17,5 +23,7 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
